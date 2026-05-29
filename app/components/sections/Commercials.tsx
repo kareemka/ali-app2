@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { WorkModal } from '@/app/components/WorkModal'
 import {
@@ -12,16 +11,7 @@ import {
   useSelectedCommercial,
 } from '@/stores/commercials.store'
 import type { Film } from '@/types/film'
-
-// Grid base: hidden scrollbar on all platforms
-const ADS_GRID_BASE =
-  'grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 overflow-y-scroll [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden'
-
-const ADS_GRID_WITH_CONTENT_CLASS =
-  `${ADS_GRID_BASE} max-h-[70vh] md:max-h-[65vh] lg:max-h-[90vh]`
-
-const ADS_GRID_EMPTY_CLASS =
-  `${ADS_GRID_BASE} h-auto min-h-0`
+import { motion } from 'framer-motion'
 
 function CommercialsGrid({
   isLoading,
@@ -36,7 +26,7 @@ function CommercialsGrid({
 }) {
   if (isLoading) {
     return (
-      <div className="col-span-full px-4 py-[60px] text-center text-white">
+      <div className="w-full py-20 text-center text-white">
         جار تحميل الإعلانات...
       </div>
     )
@@ -44,15 +34,15 @@ function CommercialsGrid({
 
   if (error) {
     return (
-      <div className="col-span-full px-4 py-[60px] text-center text-[#b8b8b8]">
+      <div className="w-full py-20 text-center text-gray-300">
         {error}
       </div>
     )
   }
 
-  if (commercials.length === 0) {
+  if (!commercials.length) {
     return (
-      <div className="col-span-full px-4 py-[60px] text-center text-[#b8b8b8]">
+      <div className="w-full py-20 text-center text-gray-300">
         لا توجد إعلانات لعرضها حاليا.
       </div>
     )
@@ -63,26 +53,25 @@ function CommercialsGrid({
       {commercials.map((item) => (
         <div
           key={item.id}
-          className="group relative w-full overflow-hidden aspect-[16/10]"
+          className="relative w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 overflow-hidden group"
         >
+          {/* IMAGE WRAPPER */}
           <button
-            type="button"
             onClick={() => onSelect(item)}
-            className="absolute inset-0 w-full h-full border-0 bg-transparent p-0"
+            className="block w-full relative"
           >
             <img
               src={item.poster}
               alt={item.title}
-              className="
-                h-full w-full object-cover object-center
-                transition-transform duration-700 group-hover:scale-110
-              "
+              className="w-full h-full object-cover block transition-transform duration-700 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           </button>
 
-          <div className="absolute bottom-2  w-fit px-3 py-1 bg-black/40 backdrop-blur-sm text-right font-sans text-sm sm:text-base font-bold text-white z-10">
-            {item.title}
+          {/* TITLE OVER IMAGE (FIXED) */}
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-black/60 px-3 py-2">
+            <p className="text-white text-[14px] font-bold capitalize leading-tight truncate">
+              {item.title}
+            </p>
           </div>
         </div>
       ))}
@@ -113,39 +102,35 @@ export default function Commercials() {
     adsRef.current?.scrollBy({ top: 300, behavior: 'smooth' })
   }
 
-  const showScrollableGrid = commercials.length > 0
-
   return (
-    <section id="commercial" className="relative bg-[#171718]">
-
-      <div className="relative z-20 h-[60px] md:h-[80px] flex items-center">
-        <motion.h1
+    <section className="relative bg-black">
+      {/* Title */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: false, amount: 0.6 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative z-20 -mt-[50px] top-[70px] sm:top-[90px]"
+      >
+        <h1
+          style={{ direction: 'ltr' }}
           className="
-            flex items-center justify-end
-            w-fit md:w-[320px] lg:w-[420px]
-            bg-black
-            px-3 md:px-6
-            py-1 md:py-2
-            font-sans
-            text-lg sm:text-xl md:text-2xl
-            font-bold
-            tracking-wide
-            text-white
-            uppercase
-          "
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: 'linear' }}
+      h-10 bg-black
+      text-left uppercase text-white font-bold
+      flex items-center
+      text-[18px] sm:text-[24px]
+      leading-none
+      px-0 sm:px-3
+      w-fit sm:w-[clamp(200px,30vw,400px)]
+    "
         >
           الإعلانات
-        </motion.h1>
-      </div>
-
-      {/* GRID — 1 عمود موبايل / 2 أعمدة md / 3 أعمدة lg+ */}
+        </h1>
+      </motion.div>
+      {/* Grid */}
       <div
-        className={showScrollableGrid ? ADS_GRID_WITH_CONTENT_CLASS : ADS_GRID_EMPTY_CLASS}
         ref={adsRef}
+        className="flex flex-wrap h-[80vh] overflow-y-scroll scrollbar-hide"
       >
         <CommercialsGrid
           isLoading={isLoading}
@@ -155,23 +140,22 @@ export default function Commercials() {
         />
       </div>
 
-      {/* ARROWS */}
+      {/* Arrows */}
       <button
-        type="button"
         onClick={scrollUp}
-        className="absolute top-[20px] right-3 md:right-10 z-50 p-1 md:p-2"
+        className="absolute top-[75px] left-10 z-50"
       >
-        <Image src="/uparrow.png" alt="" width={40} height={40} className="h-6 w-6 md:h-10 md:w-10" />
+        <Image src="/uparrow.png" alt="" width={40} height={40} className="w-[20px] h-[16px] md:w-[40px] md:h-[40px]" />
       </button>
 
       <button
-        type="button"
         onClick={scrollDown}
-        className="absolute bottom-[30px] right-3 md:right-10 z-50 p-1 md:p-2"
+        className="absolute bottom-7 left-10 z-50"
       >
-        <Image src="/downarrow.png" alt="" width={40} height={40} className="h-6 w-6 md:h-10 md:w-10" />
+        <Image src="/downarrow.png" alt="" width={40} height={40} className="w-[20px] h-[16px] md:w-[40px] md:h-[40px]" />
       </button>
 
+      {/* Modal */}
       {selectedCommercial && (
         <WorkModal
           work={selectedCommercial}

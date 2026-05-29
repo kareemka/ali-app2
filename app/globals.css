@@ -57,6 +57,17 @@ body {
 
 
 
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE / Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
 /* ============ MODAL ============ */
 .modal-overlay {
   position: fixed;
@@ -632,6 +643,9 @@ body {
 .press-status--muted {
   color: #b8b8b8;
 }
+
+
+
 
 /* ============ NEWS DETAIL PAGE ============ */
 .news-detail-page {

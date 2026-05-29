@@ -2,9 +2,10 @@
 
 import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { FreeMode } from 'swiper/modules'
+import { FreeMode, Autoplay } from 'swiper/modules'
 import { motion } from 'framer-motion'
 import { WorkModal } from '@/app/components/WorkModal'
+
 import {
   useFilmographyStore,
   useFilms,
@@ -41,18 +42,32 @@ export default function Filmography() {
     <section id="filmography" className="bg-[#171718] py-20">
       <div>
 
-        <h1 className="text-white text-2xl font-bold uppercase tracking-wide mb-10">
+        <motion.h1
+          initial={{ opacity: 0, y: -80 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.4 }}
+          transition={{
+            duration: 1,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="text-white mx-2 md:mx-12 text-2xl font-bold uppercase tracking-wide mb-10"
+        >
           الأعمال الفنية
-        </h1>
+        </motion.h1>
 
         <Swiper
-          modules={[FreeMode]}
+          modules={[Autoplay, FreeMode]}
           spaceBetween={20}
-          freeMode
+          loop={true}
+          autoplay={{
+            delay: 2000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           grabCursor
           breakpoints={{
             0: {
-              slidesPerView: 2, // 👈 موبايل
+              slidesPerView: 2,
             },
             768: {
               slidesPerView: 4,
@@ -71,8 +86,7 @@ export default function Filmography() {
                 <img
                   src={film.poster}
                   alt={film.title}
-                  className="w-full h-[225px] sm:h-[260px] md:h-[300px] object-cover"
-
+                  className="w-full h-[225px] sm:h-[260px] md:h-[300px] object-cover transform transition-all duration-300 ease-out hover:scale-90"
                 />
               </button>
             </SwiperSlide>
