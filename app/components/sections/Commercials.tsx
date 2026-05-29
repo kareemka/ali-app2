@@ -53,7 +53,7 @@ function CommercialsGrid({
       {commercials.map((item) => (
         <div
           key={item.id}
-          className="relative w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 overflow-hidden group"
+          className="h-[fit-content] relative w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5 overflow-hidden group"
         >
           {/* IMAGE WRAPPER */}
           <button

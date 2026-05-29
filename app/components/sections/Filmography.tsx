@@ -60,7 +60,7 @@ export default function Filmography() {
           spaceBetween={20}
           loop={true}
           autoplay={{
-            delay: 2000,
+            delay: 6000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
