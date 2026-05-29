@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -30,7 +30,7 @@ function PressCard({
       transition={{
         duration: 0.6,
         ease: 'easeOut',
-        delay: Math.floor(index / 2) * 0.15, // 👈 كل سطر يتأخر
+        delay: Math.floor(index / 2) * 0.15,
       }}
       className="group text-right"
     >
@@ -75,9 +75,21 @@ export default function PressReleases() {
   const error = useNewsError()
   const fetchNews = useNewsStore((s) => s.fetchNews)
 
+  // ✅ حل مشكلة window (SSR safe)
+  const [isMobile, setIsMobile] = useState(false)
+
   useEffect(() => {
     fetchNews()
   }, [fetchNews])
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024)
+
+    check()
+    window.addEventListener('resize', check)
+
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const scrollUp = () => {
     listRef.current?.scrollBy({ top: -300, behavior: 'smooth' })
@@ -91,40 +103,32 @@ export default function PressReleases() {
     <section
       id="press"
       className="
-  relative
-  min-h-screen
-  bg-[#171717]
-  overflow-hidden
-  flex
-  items-start
-"
+        relative
+        min-h-screen
+        bg-[#171717]
+        overflow-hidden
+        flex
+        items-start
+      "
     >
       {/* BACKGROUND */}
       <div
         className="
-  absolute left-0 top-0 w-full h-full
-  bg-no-repeat
-  hidden md:block
-"
+          absolute left-0 top-0 w-full h-full
+          bg-no-repeat
+          hidden md:block
+        "
         style={{
           backgroundImage: "url('/pressBg.jpeg')",
-          backgroundSize: window.innerWidth < 1024 ? "90%" : "75%",
-          backgroundPosition:
-            window.innerWidth < 1024
-              ? "center"
-              : "left bottom",
+          backgroundSize: isMobile ? "90%" : "75%",
+          backgroundPosition: isMobile ? "center" : "left bottom",
         }}
       />
 
       <div className="absolute inset-0 bg-black/30" />
 
       {/* CONTENT */}
-      <div
-        className="
-          relative z-10 w-full flex justify-end
-          px-2 md:px-12
-        "
-      >
+      <div className="relative z-10 w-full flex justify-end px-2 md:px-12">
         <div className="w-full md:w-[55%] ml-auto">
 
           <motion.h1
@@ -137,7 +141,7 @@ export default function PressReleases() {
             الأخبار
           </motion.h1>
 
-          {/* GRID */}
+          {/* GRID (صفّين فقط بشكل مضبوط) */}
           <div
             ref={listRef}
             className="
@@ -150,26 +154,16 @@ export default function PressReleases() {
               pr-0 md:pr-6
             "
           >
-            {isLoading && (
-              <div className="text-white">Loading...</div>
-            )}
+            {isLoading && <div className="text-white">Loading...</div>}
 
-            {error && (
-              <div className="text-white/70">{error}</div>
-            )}
+            {error && <div className="text-white/70">{error}</div>}
 
             {!isLoading && !error && news.length === 0 && (
-              <div className="text-white/70">
-                لا توجد أخبار حاليا
-              </div>
+              <div className="text-white/70">لا توجد أخبار حاليا</div>
             )}
 
             {news.map((item, index) => (
-              <PressCard
-                key={item.id}
-                item={item}
-                index={index}
-              />
+              <PressCard key={item.id} item={item} index={index} />
             ))}
           </div>
 
