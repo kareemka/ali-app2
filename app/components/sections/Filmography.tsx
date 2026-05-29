@@ -39,7 +39,7 @@ export default function Filmography() {
   }
 
   return (
-    <section id="filmography" className="bg-[#171718] py-20">
+    <section id="filmography" className="bg-[#171718] pt-20 pb-10">
       <div>
 
         <motion.h1

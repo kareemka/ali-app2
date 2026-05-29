@@ -103,7 +103,7 @@ export default function Commercials() {
   }
 
   return (
-    <section className="relative bg-black">
+    <section className="relative bg-[#171718]">
       {/* Title */}
       <motion.div
         initial={{ opacity: 0, x: 60 }}
@@ -130,7 +130,7 @@ export default function Commercials() {
       {/* Grid */}
       <div
         ref={adsRef}
-        className="flex flex-wrap h-[80vh] overflow-y-scroll scrollbar-hide"
+        className="flex flex-wrap h-[fit-content] max-h-[80vh] overflow-y-scroll scrollbar-hide"
       >
         <CommercialsGrid
           isLoading={isLoading}
