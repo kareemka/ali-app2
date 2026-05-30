@@ -48,10 +48,10 @@ export default function Biography() {
   return (
     <section
       id="biography"
-      className="relative bg-black text-white overflow-hidden min-h-screen"
+      className="relative bg-black text-white overflow-hidden min-h-[85vh] md:min-h-screen"
     >
 
-      <div className="relative w-full min-h-screen">
+      <div className="relative w-full  min-h-[85vh] md:min-h-screen">
 
         {/* IMAGE */}
         <motion.div
@@ -88,7 +88,7 @@ export default function Biography() {
           className="
             absolute top-0 right-0 bottom-0 flex flex-col justify-center
             w-[70%] sm:w-[55%] md:w-[50%]
-            px-3 md:px-[60px] pb-10 md:pb-[60px]
+            px-3 md:px-[60px] pb-0  md:pb-[60px]
           "
         >
           {/* optional soft overlay for readability */}

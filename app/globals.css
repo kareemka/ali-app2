@@ -797,7 +797,7 @@ body {
   gap: 14px;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 5% 50px;
+  padding-inline: 40px;
 }
 
 .backstage-status {

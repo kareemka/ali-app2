@@ -109,6 +109,8 @@ export default function PressReleases() {
         overflow-hidden
         flex
         items-start
+        !pt-4
+        md:!pt-10
       "
     >
       {/* BACKGROUND */}

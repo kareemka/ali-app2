@@ -66,7 +66,7 @@ export default function Showreel() {
   return (
     <section id="showreel" className="relative -mt-8 md:-mt-16 ">
       <div
-        className="relative h-[45vh] sm:h-[45vh] md:h-[65vh] md:max-h-[720px] lg:h-screen lg:max-h-screen w-full cursor-pointer overflow-hidden bg-black"
+        className="relative h-[calc(45vh-50px)] sm:h-[calc(45vh-100px)] md:h-[65vh] md:max-h-[720px] lg:h-screen lg:max-h-screen w-full cursor-pointer overflow-hidden bg-black"
         onClick={togglePlay}
         role="presentation"
       >
@@ -105,7 +105,7 @@ export default function Showreel() {
 
         <button
           type="button"
-          className="absolute bottom-2 right-2 z-20 flex cursor-pointer items-center justify-center border-0 bg-transparent p-0.5 text-white/90 transition hover:text-white md:bottom-[10%] md:right-[6%] md:p-2"
+          className="absolute bottom-6 right-4 z-20 flex items-center justify-center border-0 bg-transparent p-1 text-white/90 transition hover:text-white md:bottom-[10%] md:right-[6%] md:p-2"
           onClick={toggleMute}
           aria-label={muted ? 'تشغيل الصوت' : 'كتم الصوت'}
         >
@@ -130,10 +130,6 @@ export default function Showreel() {
           </a>
         </div>
 
-        <div
-          className="pointer-events-none absolute top-[12%] right-2 bottom-[12%] z-10 w-px bg-white/25 md:top-[18%] md:right-3 md:bottom-[18%]"
-          aria-hidden
-        />
       </div>
     </section>
   )
