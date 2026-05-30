@@ -25,6 +25,9 @@ export const useNewsStore = create<NewsState>((set) => ({
   ...initialState,
 
   fetchNews: async () => {
+    const state = useNewsStore.getState()
+    if (state.news.length > 0 || state.isLoading) return
+
     abortController?.abort()
     abortController = new AbortController()
     const { signal } = abortController

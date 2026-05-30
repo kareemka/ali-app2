@@ -35,9 +35,11 @@ function PressCard({
       className="group text-right"
     >
       <Link href={href} className="block overflow-hidden">
-        <img
+        <Image
           src={item.image}
           alt={item.title}
+          width={400}
+          height={300}
           className="
             w-full
             h-[120px] md:h-auto

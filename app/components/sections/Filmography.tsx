@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode, Autoplay } from 'swiper/modules'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { WorkModal } from '@/app/components/WorkModal'
 
 import {
@@ -83,9 +84,11 @@ export default function Filmography() {
                 onClick={() => setSelectedFilm(film)}
                 className="group w-full"
               >
-                <img
+                <Image
                   src={film.poster}
                   alt={film.title}
+                  width={300}
+                  height={450}
                   className="w-full h-[225px] sm:h-[260px] md:h-[300px] object-cover transform transition-all duration-300 ease-out hover:scale-90"
                 />
               </button>

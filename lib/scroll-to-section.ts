@@ -5,6 +5,15 @@ export function scrollToSection(
   const { smooth = true, updateUrl = true } = options
   const id = hash.startsWith('#') ? hash : `#${hash}`
 
+  // إذا كانت الصفحة الحالية ليست الصفحة الرئيسية، انتقل للرئيسية مع الـ hash
+  if (typeof window !== 'undefined') {
+    const isHomePage = window.location.pathname === '/'
+    if (!isHomePage) {
+      window.location.href = `/${id}`
+      return
+    }
+  }
+
   if (typeof window !== 'undefined' && updateUrl) {
     window.history.pushState(null, '', id)
   }

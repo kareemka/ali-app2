@@ -60,9 +60,11 @@ function CommercialsGrid({
             onClick={() => onSelect(item)}
             className="block w-full relative"
           >
-            <img
+            <Image
               src={item.poster}
               alt={item.title}
+              width={400}
+              height={400}
               className="w-full h-full object-cover block transition-transform duration-700 group-hover:scale-110"
             />
           </button>
@@ -105,28 +107,15 @@ export default function Commercials() {
   return (
     <section className="relative bg-[#171718]">
       {/* Title */}
-      <motion.div
-        initial={{ opacity: 0, x: 60 }}
+      <motion.h1
+        initial={{ opacity: 0, x: -30 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: false, amount: 0.6 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative z-20 -mt-[50px] top-[70px] sm:top-[90px]"
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="text-white font-bold uppercase text-[24px] mb-4 md:mb-6 mr-2 md:mr-10"
       >
-        <h1
-          style={{ direction: 'ltr' }}
-          className="
-      h-10 bg-black
-      text-left uppercase text-white font-bold
-      flex items-center
-      text-[18px] sm:text-[24px]
-      leading-none
-      px-0 sm:px-3
-      w-fit sm:w-[clamp(200px,30vw,400px)]
-    "
-        >
-          الإعلانات
-        </h1>
-      </motion.div>
+        الإعلانات
+      </motion.h1>
       {/* Grid */}
       <div
         ref={adsRef}
@@ -143,14 +132,14 @@ export default function Commercials() {
       {/* Arrows */}
       <button
         onClick={scrollUp}
-        className="absolute top-[75px] left-10 z-50"
+        className="absolute top-[75px] left-6 md:left-10 z-50"
       >
         <Image src="/uparrow.png" alt="" width={40} height={40} className="w-[20px] h-[16px] md:w-[40px] md:h-[40px]" />
       </button>
 
       <button
         onClick={scrollDown}
-        className="absolute bottom-7 left-10 z-50"
+        className="absolute bottom-7 left-6 md:left-10 z-50"
       >
         <Image src="/downarrow.png" alt="" width={40} height={40} className="w-[20px] h-[16px] md:w-[40px] md:h-[40px]" />
       </button>
@@ -159,6 +148,7 @@ export default function Commercials() {
       {selectedCommercial && (
         <WorkModal
           work={selectedCommercial}
+          isCommercial={true}
           onClose={() => setSelectedCommercial(null)}
         />
       )}

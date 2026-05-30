@@ -25,6 +25,9 @@ export const useCommercialsStore = create<CommercialsState>((set) => ({
   ...initialState,
 
   fetchCommercials: async () => {
+    const state = useCommercialsStore.getState()
+    if (state.commercials.length > 0 || state.isLoading) return
+
     abortController?.abort()
     abortController = new AbortController()
     const { signal } = abortController

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Cinzel, Tajawal } from 'next/font/google'
 import { SITE_URL } from '@/lib/config'
+import PageLoader from '@/app/components/PageLoader'
 import './globals.css'
 
 const cinzel = Cinzel({
@@ -40,7 +41,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className={`${cinzel.variable} ${tajawal.variable} bg-black`}>
-      <body className="bg-black antialiased">{children}</body>
+      <body className="bg-black antialiased">
+        <PageLoader>{children}</PageLoader>
+      </body>
     </html>
   )
 }

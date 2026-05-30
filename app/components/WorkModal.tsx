@@ -8,6 +8,7 @@ import { useFilmGallery } from '@/hooks/useFilmGallery'
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll'
 import { buildCredits } from '@/lib/utils/film'
 import type { Film } from '@/types/film'
+import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 
@@ -123,8 +124,8 @@ function WorkThumbsStrip({
           key={`${title}-thumb-${index}`}
           className={`film-thumb-slide${activeIndex === index ? ' is-active-thumb' : ''}`}
         >
-          <div className="film-thumb-inner">
-            <img src={still} alt={`${title} — مصغّر ${index + 1}`} />
+          <div className="film-thumb-inner relative w-full h-full">
+            <Image src={still} alt={`${title} — مصغّر ${index + 1}`} fill className="object-cover" />
           </div>
         </SwiperSlide>
       ))}
@@ -158,7 +159,15 @@ function WorkGallery({ work }: { work: Film }) {
   )
 }
 
-export function WorkModal({ work, onClose }: { work: Film; onClose: () => void }) {
+export function WorkModal({
+  work,
+  onClose,
+  isCommercial,
+}: {
+  work: Film
+  onClose: () => void
+  isCommercial?: boolean
+}) {
   const credits = buildCredits(work)
   useLockBodyScroll(true)
 
@@ -183,8 +192,12 @@ export function WorkModal({ work, onClose }: { work: Film; onClose: () => void }
       <div className="modal-content film-modal-content">
         <div className="modal-body film-modal-body">
           <div className="filmcontainer container">
-            <div className="filmposter film-modal-poster">
-              <img src={work.poster} alt={work.title} />
+            <div
+              className={`filmposter film-modal-poster relative ${
+                isCommercial ? 'film-modal-poster--commercial' : ''
+              }`}
+            >
+              <Image src={work.poster} alt={work.title} fill className="object-cover" />
             </div>
             <div className="filmcontent film-modal-details">
               <div className="filmcontenttext">

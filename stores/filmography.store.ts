@@ -25,6 +25,10 @@ export const useFilmographyStore = create<FilmographyState>((set) => ({
   ...initialState,
 
   fetchFilms: async () => {
+    // إذا البيانات موجودة مسبقاً لا داعي لطلب جديد
+    const state = useFilmographyStore.getState()
+    if (state.films.length > 0 || state.isLoading) return
+
     abortController?.abort()
     abortController = new AbortController()
     const { signal } = abortController

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, type MouseEvent } from 'react'
 import { scrollToSection, scrollToSectionFromUrl } from '@/lib/scroll-to-section'
 import { SocialIcons } from './SocialIcons'
 
@@ -13,13 +13,15 @@ const NAV_LINKS = [
   { label: 'الأعمال الفنية', href: '#filmography' },
   { label: 'الإعلانات', href: '#commercial' },
   { label: 'الأخبار', href: '#press' },
-  { label: 'المعرض', href: '#backstage' },
 ] as const
 
 
 
-const linkClassName =
-  'inline-block py-2.5 text-2xl font-light text-white no-underline transition-all duration-300 hover:font-bold'
+const desktopLinkClassName =
+  'hidden lg:inline-block py-2 text-sm uppercase tracking-[0.18em] text-white/80 transition duration-300 hover:text-white hover:tracking-[0.22em]'
+
+const mobileLinkClassName =
+  'inline-block py-2.5 text-2xl font-light text-white no-underline transition-all duration-300 hover:font-semibold'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -69,30 +71,58 @@ export default function Header() {
     }, 300)
   }
 
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false)
+  }, [])
+
+  const handleOverlayClick = (event: MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) {
+      closeMenu()
+    }
+  }
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [menuOpen, closeMenu])
+
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 w-full ${HEADER_HEIGHT_CLASS} transition-colors duration-300 ${
-          isScrolled || menuOpen ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
+        className={`fixed inset-x-0 top-0 z-50 w-full ${HEADER_HEIGHT_CLASS} transition-all duration-300 ${
+          isScrolled || menuOpen
+            ? 'bg-black/80 backdrop-blur-md border-b border-white/10 shadow-black/10'
+            : 'bg-transparent'
         }`}
       >
-        <div className="mx-auto flex h-full w-full max-w-[1400px] items-center justify-between px-4 md:px-6">
+        <div className="mx-auto flex h-full w-full max-w-[1400px] items-center justify-between gap-4 px-4 md:px-6">
           <a
             href="#showreel"
             onClick={(e) => {
               e.preventDefault()
               handleNavClick('#showreel')
             }}
-            className="font-serif text-lg leading-none font-bold uppercase tracking-widest text-white no-underline transition-opacity duration-300 hover:opacity-70 md:text-[26px]"
+            className="font-serif text-lg leading-none font-bold uppercase tracking-[0.35em] text-white no-underline transition-opacity duration-300 hover:opacity-70 md:text-[26px]"
           >
             علي فاضل
           </a>
 
+    
+
           <button
             type="button"
-            className="flex cursor-pointer items-center gap-2 rounded-lg border-0 bg-transparent px-3.5 py-2.5 text-base font-medium text-white transition-all duration-300 hover:bg-white/10"
+            className="flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-base font-medium text-white shadow-sm shadow-black/20 transition-all duration-300 hover:border-white/30 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/40"
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
+            aria-controls="mobile-menu"
             aria-expanded={menuOpen}
           >
             {menuOpen ? (
@@ -112,6 +142,10 @@ export default function Header() {
       </header>
 
       <nav
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        onClick={handleOverlayClick}
         className={`fixed inset-0 z-[999] flex flex-col items-center justify-center transition-all duration-300 ${
           menuOpen
             ? 'pointer-events-auto bg-black/95 backdrop-blur-md'
@@ -152,7 +186,7 @@ export default function Header() {
               style={{ transitionDelay: menuOpen ? `${index * 100}ms` : '0ms' }}
             >
               {link.href.startsWith('mailto') ? (
-                <a href={link.href} className={linkClassName}>
+                <a href={link.href} className={mobileLinkClassName}>
                   {link.label}
                 </a>
               ) : (
@@ -162,7 +196,7 @@ export default function Header() {
                     e.preventDefault()
                     handleNavClick(link.href)
                   }}
-                  className={linkClassName}
+                  className={mobileLinkClassName}
                 >
                   {link.label}
                 </a>

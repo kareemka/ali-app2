@@ -4,7 +4,7 @@ import Biography from './components/sections/Biography'
 import Filmography from './components/sections/Filmography'
 import Commercials from './components/sections/Commercials'
 import PressReleases from './components/sections/PressReleases'
-import LastSection from './components/sections/LastSection'
+// import LastSection from './components/sections/LastSection'
 import Footer from './components/Footer'
 
 export default function Page() {
@@ -17,7 +17,7 @@ export default function Page() {
         <Filmography />
         <Commercials />
         <PressReleases />
-        <LastSection />
+        {/* <LastSection /> */}
       </main>
       <Footer />
     </>

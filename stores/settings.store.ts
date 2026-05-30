@@ -22,6 +22,9 @@ export const useSettingsStore = create<SettingsState>((set) => ({
   ...initialState,
 
   fetchSettings: async () => {
+    const state = useSettingsStore.getState()
+    if (state.settings !== null || state.isLoading) return
+
     abortController?.abort()
     abortController = new AbortController()
     const { signal } = abortController

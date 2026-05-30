@@ -64,9 +64,9 @@ export default function Showreel() {
   }
 
   return (
-    <section id="showreel" className="relative -mt-8 md:-mt-16 ">
+    <section id="showreel" className="relative -mt-8 md:-mt-16">
       <div
-        className="relative h-[calc(45vh-50px)] sm:h-[calc(45vh-100px)] md:h-[65vh] md:max-h-[720px] lg:h-screen lg:max-h-screen w-full cursor-pointer overflow-hidden bg-black"
+        className="relative h-[30vh] sm:h-[35vh] md:h-[65vh] md:max-h-[720px] lg:h-screen lg:max-h-screen w-full cursor-pointer overflow-hidden bg-black"
         onClick={togglePlay}
         role="presentation"
       >
@@ -87,15 +87,36 @@ export default function Showreel() {
         {!isPlaying && (
           <button
             type="button"
-            className="absolute left-1/2 top-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white bg-black/20 text-white backdrop-blur-[2px] transition hover:bg-white/10 md:h-[72px] md:w-[72px] md:border-2"
+            className="
+    absolute left-1/2 top-1/2 z-20
+    flex items-center justify-center
+    h-16 w-16
+    -translate-x-1/2 -translate-y-1/2
+    rounded-full
+    border border-white/35
+    bg-black/42
+    text-white
+    backdrop-blur-md
+    shadow-[0_8px_32px_rgba(0,0,0,0.38),inset_0_1px_0_rgba(255,255,255,0.12)]
+    transition-all duration-[250ms] ease-[cubic-bezier(.34,1.56,.64,1)]
+    hover:scale-[1.08] hover:bg-black/55 hover:border-white/55
+    hover:shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.18)]
+    active:scale-[0.94] active:duration-100
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60
+    md:h-24 md:w-24
+  "
             onClick={handlePlay}
             aria-label="تشغيل الفيديو"
           >
+            {/* حلقات النبض */}
+            <span className="absolute inset-0 rounded-full border border-white/25 animate-[pulse-ring_2.4s_ease-out_infinite]" />
+            <span className="absolute inset-0 rounded-full border border-white/25 animate-[pulse-ring_2.4s_ease-out_infinite_0.8s]" />
+
             <svg
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="ml-0.5 h-4 w-4 md:ml-1 md:h-7 md:w-7"
+              className="ml-1 h-7 w-7 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)] md:h-10 md:w-10"
               aria-hidden
             >
               <path d="M8 5.5v13l11-6.5L8 5.5z" fill="currentColor" />

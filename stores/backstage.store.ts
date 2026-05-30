@@ -22,6 +22,9 @@ export const useBackstageStore = create<BackstageState>((set) => ({
   ...initialState,
 
   fetchBackstage: async () => {
+    const state = useBackstageStore.getState()
+    if (state.items.length > 0 || state.isLoading) return
+
     abortController?.abort()
     abortController = new AbortController()
     const { signal } = abortController

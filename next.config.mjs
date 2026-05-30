@@ -7,12 +7,29 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: process.env.NODE_ENV !== 'production',
     remotePatterns: [
       {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '4000',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '4000',
+        pathname: '/**',
+      },
+      {
         protocol: 'https',
-        hostname: 'marwanhamed.com',
-        pathname: '/assets/**',
+        hostname: 'api.alifadil.com',
+        pathname: '/**',
+      },
+
+      {
+        protocol: 'https',
+        hostname: '**',
       },
     ],
   },
