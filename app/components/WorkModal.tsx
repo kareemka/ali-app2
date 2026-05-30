@@ -197,7 +197,7 @@ export function WorkModal({
                 isCommercial ? 'film-modal-poster--commercial' : ''
               }`}
             >
-              <Image src={work.poster} alt={work.title} fill className="object-cover" />
+              <Image src={work.poster} alt={work.title} width={600} height={900} className="w-full h-auto object-cover" />
             </div>
             <div className="filmcontent film-modal-details">
               <div className="filmcontenttext">
